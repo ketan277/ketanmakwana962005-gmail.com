@@ -16,7 +16,24 @@ This repository contains instructions for setting up and using the Anthropic Ble
    git clone <URL>
    cd blender-mcp
    ```
-3. Run the provided installation script.
+3. Run the provided installation script (usually `install.py` or `setup.sh`):
+   ```bash
+   # If it's a Python script:
+   python install.py
+
+   # Or using the modern 'uv' package manager (recommended):
+   uvx blender-mcp
+   ```
+
+#### Windows Users (PowerShell)
+If you are using Windows, make sure to use **PowerShell** for environment setup commands.
+To add `uv` to your PATH, run these in PowerShell:
+```powershell
+$localBin = "$env:USERPROFILE\.local\bin"
+$userPath = [Environment]::GetEnvironmentVariable("Path", "User")
+[Environment]::SetEnvironmentVariable("Path", "$userPath;$localBin", "User")
+```
+
 4. Open Blender and go to `Edit` > `Preferences` > `Add-ons`.
 5. Search for "MCP" and enable the add-on.
 6. **Restart Blender** to ensure the MCP server loads correctly.
@@ -25,6 +42,26 @@ This repository contains instructions for setting up and using the Anthropic Ble
 
 ## Part 2: Connecting Claude to Blender
 
+### 1. Configure Claude Desktop
+You must add the MCP server configuration to your `claude_desktop_config.json` file.
+
+**File Location:**
+- **Windows:** `%APPDATA%\Claude\claude_desktop_config.json`
+- **Mac:** `~/Library/Application Support/Claude/claude_desktop_config.json`
+
+**Add this to the file:**
+```json
+{
+  "mcpServers": {
+    "blender": {
+      "command": "uvx",
+      "args": ["blender-mcp"]
+    }
+  }
+}
+```
+
+### 2. Connect in the Interface
 1. **Launch Claude:** Open your Claude interface.
 2. **Accept Permissions:** When the MCP permission popup appears, click "Accept".
 3. **Select Project Folder:** Choose the folder where your Blender project is located. This will generate a secure token.
