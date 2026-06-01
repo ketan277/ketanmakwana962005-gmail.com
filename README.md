@@ -49,9 +49,23 @@ You must add the MCP server configuration to your `claude_desktop_config.json` f
 - **Windows:** `%APPDATA%\Claude\claude_desktop_config.json`
 - **Mac:** `~/Library/Application Support/Claude/claude_desktop_config.json`
 
-*Note: If the directory does not exist, ensure you have installed [Claude Desktop](https://claude.ai/download) and launched it at least once.*
+### Windows Troubleshooting: "Location not available"
+If you see an error saying `%APPDATA%\Claude\` is unavailable, it means the folder hasn't been created yet. This usually happens if Claude Desktop is not installed.
 
-**Add this to the file:**
+1. **Install Claude Desktop:** Download and install it from [claude.ai/download](https://claude.ai/download).
+2. **Manual Creation (PowerShell):** If the folder is still missing, run these commands in PowerShell to create it and the config file:
+   ```powershell
+   # Create the directory
+   New-Item -ItemType Directory -Force -Path "$env:APPDATA\Claude"
+
+   # Create an empty config file if it doesn't exist
+   $configPath = "$env:APPDATA\Claude\claude_desktop_config.json"
+   if (-not (Test-Path $configPath)) {
+       '{}' | Out-File -FilePath $configPath -Encoding utf8
+   }
+   ```
+
+**Add this to the `claude_desktop_config.json` file:**
 ```json
 {
   "mcpServers": {
