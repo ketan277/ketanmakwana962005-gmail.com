@@ -49,6 +49,8 @@ You must add the MCP server configuration to your `claude_desktop_config.json` f
 - **Windows:** `%APPDATA%\Claude\claude_desktop_config.json`
 - **Mac:** `~/Library/Application Support/Claude/claude_desktop_config.json`
 
+*Note: If the directory does not exist, ensure you have installed [Claude Desktop](https://claude.ai/download) and launched it at least once.*
+
 **Add this to the file:**
 ```json
 {
