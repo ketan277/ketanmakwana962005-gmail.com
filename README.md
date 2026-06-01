@@ -1,32 +1,34 @@
 # Anthropic Blender Connector: Step-by-Step Guide
 
-This repository contains instructions for setting up and using the Anthropic Blender Connector to accelerate your 3D production workflow using Claude and the Model Context Protocol (MCP).
+This guide is based on the Anthropic launch of the Blender connector (Published 15th May 2026). Integrating AI into your 3D workflow can boost production throughput by 30–40%.
 
-## Part 1: Preparation
+## Part 1: Why AI Integration Matters
+Artificial intelligence can generate geometry, textures, and lighting from scene descriptions. This shrinks the iteration loop from hours to minutes, allowing artists to focus on composition.
+- **Identify:** Delegate repetitive tasks like basic props to AI.
+- **Measure:** Set baseline metrics for current scene creation time.
+- **Pilot:** Test the connector on a small project first.
+
+## Part 2: Preparing Your Development Environment
 
 ### Prerequisites
 - **Blender:** version 3.5 or later.
 - **Hardware:** At least 16GB RAM and a modern GPU.
+- **SSD:** Keep the MCP folder on a fast SSD to reduce file I/O latency.
 - **Python:** version 3.10 (comes pre-installed with Blender).
 
 ### Environment Setup
 1. Open your terminal or command prompt.
-2. Clone the MCP repository (Replace `<URL>` with the official GitHub URL):
+2. Clone the MCP repository:
    ```bash
    git clone <URL>
    cd blender-mcp
    ```
-3. Run the provided installation script (usually `install.py` or `setup.sh`):
+3. Run the provided installation script. Using `uv` is recommended:
    ```bash
-   # If it's a Python script:
-   python install.py
-
-   # Or using the modern 'uv' package manager (recommended):
    uvx blender-mcp
    ```
 
 #### Windows Users (PowerShell)
-If you are using Windows, make sure to use **PowerShell** for environment setup commands.
 To add `uv` to your PATH, run these in PowerShell:
 ```powershell
 $localBin = "$env:USERPROFILE\.local\bin"
@@ -40,32 +42,16 @@ $userPath = [Environment]::GetEnvironmentVariable("Path", "User")
 
 ---
 
-## Part 2: Connecting Claude to Blender
+## Part 3: Connecting Claude to Blender Seamlessly
 
 ### 1. Configure Claude Desktop
-You must add the MCP server configuration to your `claude_desktop_config.json` file.
+Add the MCP server configuration to your `claude_desktop_config.json`.
 
 **File Location:**
 - **Windows:** `%APPDATA%\Claude\claude_desktop_config.json`
 - **Mac:** `~/Library/Application Support/Claude/claude_desktop_config.json`
 
-### Windows Troubleshooting: "Location not available"
-If you see an error saying `%APPDATA%\Claude\` is unavailable, it means the folder hasn't been created yet. This usually happens if Claude Desktop is not installed.
-
-1. **Install Claude Desktop:** Download and install it from [claude.ai/download](https://claude.ai/download).
-2. **Manual Creation (PowerShell):** If the folder is still missing, run these commands in PowerShell to create it and the config file:
-   ```powershell
-   # Create the directory
-   New-Item -ItemType Directory -Force -Path "$env:APPDATA\Claude"
-
-   # Create an empty config file if it doesn't exist
-   $configPath = "$env:APPDATA\Claude\claude_desktop_config.json"
-   if (-not (Test-Path $configPath)) {
-       '{}' | Out-File -FilePath $configPath -Encoding utf8
-   }
-   ```
-
-**Add this to the `claude_desktop_config.json` file:**
+**Configuration Block:**
 ```json
 {
   "mcpServers": {
@@ -78,45 +64,44 @@ If you see an error saying `%APPDATA%\Claude\` is unavailable, it means the fold
 ```
 
 ### 2. Connect in the Interface
-1. **Launch Claude:** Open your Claude interface.
-2. **Accept Permissions:** When the MCP permission popup appears, click "Accept".
-3. **Select Project Folder:** Choose the folder where your Blender project is located. This will generate a secure token.
-4. **Link Session:** In Claude's prompt window, type the following command:
+1. **Launch Claude** and accept the MCP permission popup.
+2. **Select Project Folder:** Choose your Blender project directory.
+3. **Link Session:** In Claude's prompt window, use:
    ```text
-   !mcp connect --project <your_project_path>
+   !mcp connect --project <path>
    ```
-5. **Verify Connection:** Test the link by typing:
+4. **Verify Connection:** Test with:
    ```text
    !mcp list objects
    ```
+- **Pro Tip:** Store the permission token in a hidden `.mcp_token` file to avoid re-authorizing each session.
+- **Troubleshooting:** Check if port **5000** is open and not blocked by a firewall.
 
 ---
 
-## Part 3: Effective Prompting
+## Part 4: Crafting Effective Plain-English Prompts
 
-To get the best results, use descriptive "Plain-English" prompts.
-
-- **Example:** "Create a medieval stone tower, 12m tall, with moss-covered walls and a torch-lit entrance."
-- **Iteration:** Add constraints one at a time (e.g., "add intricate carvings around the doorway").
-- **Units:** Use metric units (meters, centimeters) for consistency.
-- **Materials:** Specify texture cues like "weathered bronze" or "polished marble".
-
----
-
-## Part 4: Troubleshooting and Maintenance
-
-- **Mesh Cleanup:** Always run a quick mesh check after generation (`Mesh` > `Clean Up` > `Delete Loose`).
-- **Connection Issues:** Ensure port **5000** is open and not blocked by a firewall.
-- **Token Management:** Store the permission token in a hidden file named `.mcp_token` to avoid re-authorizing every time.
-- **Version Control:** Save incremental versions of your `.blend` files.
+- **Be Specific:** "Create a medieval stone tower, 12m tall, with moss-covered walls and a torch-lit entrance."
+- **Iterate:** Add one constraint at a time (e.g., "add intricate carvings around the doorway").
+- **Units:** Use metric units (meters, centimeters).
+- **Materials:** Specify texture cues ("weathered bronze", "polished marble").
+- **Limit:** One primary object per prompt to avoid tangled geometry.
+- **Quality Check:** Review mesh for non-manifold edges before committing to animation.
 
 ---
 
-## Part 5: Advanced Workflow
+## Part 5: Avoiding Common Mistakes and Pitfalls
 
-For mass production, you can script a loop to feed a CSV list of prompts to Claude using:
-```text
-!mcp generate
-```
+- **Cleanup:** AI output is not final art. Run `Mesh > Clean Up > Delete Loose` after generation.
+- **Avoid Ambiguity:** Don't use vague phrases like "nice building". Be descriptive.
+- **Version Control:** Save incremental `.blend` files to revert if a prompt produces unusable results.
+- **Track Prompts:** Document prompt versions in a spreadsheet to track what works best.
 
-Monitor your token consumption in the Claude dashboard to manage costs.
+---
+
+## Part 6: Scaling Workflow and Future Enhancements
+
+- **Batch Processing:** Create a CSV file of prompts and use a Python script to call `!mcp generate` for each row.
+- **Stay Updated:** Newer versions will add support for animation rigs and texture baking.
+- **Monitor Costs:** Check token consumption in the Claude dashboard.
+- **Community:** Join the official Anthropic community forum for early access and support.
