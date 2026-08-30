@@ -139,7 +139,7 @@ def create_boiler_main(collection, mat_boiler, mat_metal):
                 break
 
     if band_faces:
-        extruded = bmesh.ops.extrude_face_region(bm, faces=band_faces)
+        extruded = bmesh.ops.extrude_face_region(bm, geom=band_faces)
         extruded_verts = [v for v in extruded['geom'] if isinstance(v, bmesh.types.BMVert)]
         # Push extruded verts outwards radially
         for v in extruded_verts:
