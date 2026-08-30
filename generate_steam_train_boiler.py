@@ -468,6 +468,293 @@ def create_big_dome(boiler_obj, collection, mat_boiler, mat_brass):
     return obj
 
 
+def create_chassis_frame(collection, mat_steel):
+    """
+    Creates the main chassis frame running beneath the boiler along X.
+    Uses Mirror modifier along Y and Bevel modifier for hard-surface detailing.
+    """
+    mesh = bpy.data.meshes.new("Chassis_Frame_Mesh")
+    obj = bpy.data.objects.new("Chassis_Frame", mesh)
+    collection.objects.link(obj)
+
+    bm = bmesh.new()
+
+    # Half-chassis beam on +Y side (X from -4.2 to 1.9, Y from 0.65 to 0.78, Z from -0.15 to 0.15)
+    x1, x2 = -4.2, 1.9
+    y1, y2 = 0.65, 0.78
+    z1, z2 = -0.15, 0.15
+
+    verts = [
+        bm.verts.new((x1, y1, z1)), bm.verts.new((x2, y1, z1)),
+        bm.verts.new((x2, y2, z1)), bm.verts.new((x1, y2, z1)),
+        bm.verts.new((x1, y1, z2)), bm.verts.new((x2, y1, z2)),
+        bm.verts.new((x2, y2, z2)), bm.verts.new((x1, y2, z2)),
+    ]
+
+    bm.faces.new((verts[0], verts[1], verts[2], verts[3]))
+    bm.faces.new((verts[7], verts[6], verts[5], verts[4]))
+    bm.faces.new((verts[1], verts[5], verts[6], verts[2]))
+    bm.faces.new((verts[4], verts[0], verts[3], verts[7]))
+    bm.faces.new((verts[0], verts[4], verts[5], verts[1]))
+    f_outer = bm.faces.new((verts[3], verts[2], verts[6], verts[7]))
+
+    # Inset the outer face to create recessed channel
+    bmesh.ops.inset_individual(bm, faces=[f_outer], thickness=0.03, depth=-0.015)
+
+    bm.to_mesh(mesh)
+    bm.free()
+
+    mesh.materials.append(mat_steel)
+    set_auto_smooth(obj, 35)
+
+    mirror = obj.modifiers.new(name="Mirror_Y", type='MIRROR')
+    mirror.use_axis[0] = False
+    mirror.use_axis[1] = True
+    mirror.use_axis[2] = False
+
+    bevel = obj.modifiers.new(name="Bevel", type='BEVEL')
+    bevel.width = 0.012
+    bevel.segments = 3
+    bevel.limit_method = 'ANGLE'
+    bevel.angle_limit = math.radians(30)
+
+    return obj
+
+
+def create_buffer_beams(collection, mat_steel):
+    """
+    Creates front and rear structural buffer beam plates with matching beveling.
+    """
+    mesh = bpy.data.meshes.new("Buffer_Beams_Mesh")
+    obj = bpy.data.objects.new("Buffer_Beams", mesh)
+    collection.objects.link(obj)
+
+    bm = bmesh.new()
+
+    def add_beam_box(bm, x_min, x_max, y_min, y_max, z_min, z_max):
+        v0 = bm.verts.new((x_min, y_min, z_min))
+        v1 = bm.verts.new((x_max, y_min, z_min))
+        v2 = bm.verts.new((x_max, y_max, z_min))
+        v3 = bm.verts.new((x_min, y_max, z_min))
+        v4 = bm.verts.new((x_min, y_min, z_max))
+        v5 = bm.verts.new((x_max, y_min, z_max))
+        v6 = bm.verts.new((x_max, y_max, z_max))
+        v7 = bm.verts.new((x_min, y_max, z_max))
+
+        bm.faces.new((v0, v1, v2, v3))
+        bm.faces.new((v7, v6, v5, v4))
+        bm.faces.new((v1, v5, v6, v2))
+        bm.faces.new((v4, v0, v3, v7))
+        bm.faces.new((v0, v4, v5, v1))
+        bm.faces.new((v3, v2, v6, v7))
+
+    # Front Buffer Beam
+    add_beam_box(bm, 1.90, 1.98, -0.85, 0.85, -0.15, 0.40)
+    # Rear Buffer Beam
+    add_beam_box(bm, -4.28, -4.20, -0.85, 0.85, -0.15, 0.40)
+
+    bm.to_mesh(mesh)
+    bm.free()
+
+    mesh.materials.append(mat_steel)
+    set_auto_smooth(obj, 35)
+
+    bevel = obj.modifiers.new(name="Bevel", type='BEVEL')
+    bevel.width = 0.012
+    bevel.segments = 3
+    bevel.limit_method = 'ANGLE'
+    bevel.angle_limit = math.radians(30)
+
+    return obj
+
+
+def create_drivers_cab(collection, mat_boiler, mat_brass, mat_metal):
+    """
+    Creates the detailed driver's cab shell with front/rear end walls, circular porthole
+    windows with brass bezel trim, curved roof profile with overhang, and boiler cutout alignment.
+    Uses Mirror modifier along Y for symmetric topology.
+    """
+    mesh = bpy.data.meshes.new("Drivers_Cab_Mesh")
+    obj = bpy.data.objects.new("Drivers_Cab", mesh)
+    collection.objects.link(obj)
+
+    bm = bmesh.new()
+
+    # Coordinates for half-cab shell (+Y side)
+    x_front = -2.30
+    x_back = -4.10
+    y_outer = 0.95
+    y_overhang = 1.02
+    z_bottom = 0.20
+    z_eaves = 2.00
+    z_apex = 2.25
+
+    # 1. Outer Side Wall Panel (Y = y_outer, X from x_back to x_front, Z from z_bottom to z_eaves)
+    v_s1 = bm.verts.new((x_back, y_outer, z_bottom))
+    v_s2 = bm.verts.new((x_front, y_outer, z_bottom))
+    v_s3 = bm.verts.new((x_front, y_outer, z_eaves))
+    v_s4 = bm.verts.new((x_back, y_outer, z_eaves))
+    bm.faces.new((v_s1, v_s2, v_s3, v_s4))
+
+    # 2. Curved Roof Shell (+Y side, extending from center line Y=0 to y_overhang)
+    r_front_center = bm.verts.new((x_front - 0.05, 0.0, z_apex))
+    r_front_sh     = bm.verts.new((x_front - 0.05, 0.68, z_apex - 0.07))
+    r_front_eaves  = bm.verts.new((x_front - 0.05, y_overhang, z_eaves))
+
+    r_back_center  = bm.verts.new((x_back + 0.05, 0.0, z_apex))
+    r_back_sh      = bm.verts.new((x_back + 0.05, 0.68, z_apex - 0.07))
+    r_back_eaves   = bm.verts.new((x_back + 0.05, y_overhang, z_eaves))
+
+    bm.faces.new((r_front_center, r_front_sh, r_back_sh, r_back_center))
+    bm.faces.new((r_front_sh, r_front_eaves, r_back_eaves, r_back_sh))
+
+    # Helper to build wall end panel with circular window cutout and clean quad topology around all 12 vertices
+    def add_wall_with_circular_window(bm, x_pos, is_front=True):
+        win_center_y = 0.48
+        win_center_z = 1.55
+        win_rad = 0.18
+        outer_rad = 0.35
+        win_segs = 12
+
+        # Inner window circle verts
+        win_verts = []
+        for j in range(win_segs):
+            angle = 2 * math.pi * j / win_segs
+            wy = win_center_y + win_rad * math.sin(angle)
+            wz = win_center_z + win_rad * math.cos(angle)
+            win_verts.append(bm.verts.new((x_pos, wy, wz)))
+
+        # Outer concentric circle ring verts
+        outer_ring_verts = []
+        for j in range(win_segs):
+            angle = 2 * math.pi * j / win_segs
+            oy = win_center_y + outer_rad * math.sin(angle)
+            oz = win_center_z + outer_rad * math.cos(angle)
+            outer_ring_verts.append(bm.verts.new((x_pos, oy, oz)))
+
+        # Quad ring between inner window circle and outer ring (all 12 segments quad-connected)
+        for j in range(win_segs):
+            n = (j + 1) % win_segs
+            if is_front:
+                bm.faces.new((win_verts[j], win_verts[n], outer_ring_verts[n], outer_ring_verts[j]))
+            else:
+                bm.faces.new((win_verts[n], win_verts[j], outer_ring_verts[j], outer_ring_verts[n]))
+
+        # Outer wall boundary verts
+        v_bot_in  = bm.verts.new((x_pos, 0.0, z_bottom))
+        v_bot_out = bm.verts.new((x_pos, y_outer, z_bottom))
+        v_top_out = bm.verts.new((x_pos, y_outer, z_eaves))
+        v_top_in  = bm.verts.new((x_pos, 0.0, z_apex))
+        v_sh_in   = bm.verts.new((x_pos, 0.68, z_apex - 0.07))
+
+        # Connect outer ring vertices to outer wall boundary corners
+        # outer_ring_verts[0] = Top, [3] = Right (+Y), [6] = Bottom, [9] = Left (0)
+        if is_front:
+            bm.faces.new((v_bot_in, v_bot_out, outer_ring_verts[6], outer_ring_verts[9]))
+            bm.faces.new((v_bot_out, v_top_out, outer_ring_verts[3], outer_ring_verts[6]))
+            bm.faces.new((v_top_out, v_sh_in, outer_ring_verts[0], outer_ring_verts[3]))
+            bm.faces.new((v_sh_in, v_top_in, outer_ring_verts[9], outer_ring_verts[0]))
+        else:
+            bm.faces.new((v_bot_in, outer_ring_verts[9], outer_ring_verts[6], v_bot_out))
+            bm.faces.new((v_bot_out, outer_ring_verts[6], outer_ring_verts[3], v_top_out))
+            bm.faces.new((v_top_out, outer_ring_verts[3], outer_ring_verts[0], v_sh_in))
+            bm.faces.new((v_sh_in, outer_ring_verts[0], outer_ring_verts[9], v_top_in))
+
+    # 3. Front Wall Panel with Circular Porthole Cutout
+    add_wall_with_circular_window(bm, x_front, is_front=True)
+
+    # 4. Rear Wall Panel with Circular Porthole Cutout
+    add_wall_with_circular_window(bm, x_back, is_front=False)
+
+    bm.to_mesh(mesh)
+    bm.free()
+
+    # Assign materials
+    mesh.materials.append(mat_boiler)
+    mesh.materials.append(mat_metal)
+    mesh.materials.append(mat_brass)
+
+    for poly in mesh.polygons:
+        poly.use_smooth = True
+    set_auto_smooth(obj, 35)
+
+    # Add Mirror modifier along Y axis with clipping enabled
+    mirror = obj.modifiers.new(name="Mirror_Y", type='MIRROR')
+    mirror.use_axis[0] = False
+    mirror.use_axis[1] = True
+    mirror.use_axis[2] = False
+    mirror.use_clip = True
+
+    # Add Solidify modifier to give realistic sheet metal thickness
+    solidify = obj.modifiers.new(name="Solidify", type='SOLIDIFY')
+    solidify.thickness = 0.025
+    solidify.offset = -1.0
+
+    # Add Subdivision Surface modifier
+    subsurf = obj.modifiers.new(name="Subdivision", type='SUBSURF')
+    subsurf.render_levels = 2
+    subsurf.levels = 1
+
+    # Add Brass Porthole Window Bezels (Front & Rear) directly via native BMesh geometry
+    win_center_y = 0.48
+    win_center_z = 1.55
+    win_rad = 0.18
+    bezel_r = 0.018
+    major_segs = 16
+    minor_segs = 8
+
+    for win_x in [x_front + 0.01, x_back - 0.01]:
+        for side_sign in [1, -1]:
+            bezel_mesh = bpy.data.meshes.new("Window_Bezel_Mesh")
+            bezel_obj = bpy.data.objects.new(
+                f"Window_Bezel_{'Front' if win_x > -3.0 else 'Rear'}_{'R' if side_sign > 0 else 'L'}",
+                bezel_mesh
+            )
+            collection.objects.link(bezel_obj)
+
+            bm_b = bmesh.new()
+            center_y = side_sign * win_center_y
+
+            torus_rings = []
+            for i in range(major_segs):
+                major_angle = 2 * math.pi * i / major_segs
+                ring_y = center_y + win_rad * math.sin(major_angle)
+                ring_z = win_center_z + win_rad * math.cos(major_angle)
+
+                ring_verts = []
+                for j in range(minor_segs):
+                    minor_angle = 2 * math.pi * j / minor_segs
+                    dx = bezel_r * math.cos(minor_angle)
+                    r_off = bezel_r * math.sin(minor_angle)
+
+                    vx = win_x + dx
+                    vy = ring_y + r_off * math.sin(major_angle)
+                    vz = ring_z + r_off * math.cos(major_angle)
+                    ring_verts.append(bm_b.verts.new((vx, vy, vz)))
+                torus_rings.append(ring_verts)
+
+            for i in range(major_segs):
+                n_i = (i + 1) % major_segs
+                for j in range(minor_segs):
+                    n_j = (j + 1) % minor_segs
+                    v1 = torus_rings[i][j]
+                    v2 = torus_rings[n_i][j]
+                    v3 = torus_rings[n_i][n_j]
+                    v4 = torus_rings[i][n_j]
+                    bm_b.faces.new((v1, v2, v3, v4))
+
+            bm_b.to_mesh(bezel_mesh)
+            bm_b.free()
+
+            bezel_mesh.materials.append(mat_brass)
+            for poly in bezel_mesh.polygons:
+                poly.use_smooth = True
+            set_auto_smooth(bezel_obj, 30)
+            bezel_obj.parent = obj
+
+    return obj
+
+
 def create_side_plates(collection, mat_metal):
     """
     Creates the boiler lower side plates, running boards, and front buffer beam mounts.
@@ -549,50 +836,50 @@ def create_side_plates(collection, mat_metal):
 
 
 def create_lighting_and_camera(collection):
-    """Creates a 3-point studio lighting setup and positions camera for preview."""
+    """Creates a 3-point studio lighting setup and positions 50mm camera to frame full locomotive."""
     # Key Light (Top-Front-Right)
     key_data = bpy.data.lights.new(name="Key_Light_Data", type='AREA')
-    key_data.energy = 800
-    key_data.size = 2.5
+    key_data.energy = 1200
+    key_data.size = 4.0
     key_data.color = (1.0, 0.95, 0.9)  # Soft warm key
     key_obj = bpy.data.objects.new("Key_Light", key_data)
-    key_obj.location = (4.0, -3.5, 4.0)
-    key_obj.rotation_euler = (math.radians(45), math.radians(20), math.radians(-35))
+    key_obj.location = (5.5, -5.5, 5.0)
+    key_obj.rotation_euler = (math.radians(45), math.radians(15), math.radians(-40))
     collection.objects.link(key_obj)
 
     # Fill Light (Front-Left)
     fill_data = bpy.data.lights.new(name="Fill_Light_Data", type='AREA')
-    fill_data.energy = 350
-    fill_data.size = 3.5
+    fill_data.energy = 550
+    fill_data.size = 5.0
     fill_data.color = (0.85, 0.9, 1.0)  # Soft cool fill
     fill_obj = bpy.data.objects.new("Fill_Light", fill_data)
-    fill_obj.location = (3.5, 4.0, 2.5)
-    fill_obj.rotation_euler = (math.radians(60), math.radians(-15), math.radians(135))
+    fill_obj.location = (4.5, 5.5, 3.5)
+    fill_obj.rotation_euler = (math.radians(55), math.radians(-15), math.radians(130))
     collection.objects.link(fill_obj)
 
     # Rim / Back Light (Top-Back)
     rim_data = bpy.data.lights.new(name="Rim_Light_Data", type='AREA')
-    rim_data.energy = 600
-    rim_data.size = 2.0
+    rim_data.energy = 900
+    rim_data.size = 3.0
     rim_data.color = (1.0, 1.0, 1.0)  # Crisp white rim edge light
     rim_obj = bpy.data.objects.new("Rim_Light", rim_data)
-    rim_obj.location = (-4.0, 2.5, 3.5)
-    rim_obj.rotation_euler = (math.radians(120), math.radians(10), math.radians(-45))
+    rim_obj.location = (-6.5, 4.0, 4.5)
+    rim_obj.rotation_euler = (math.radians(115), math.radians(10), math.radians(-50))
     collection.objects.link(rim_obj)
 
-    # Camera setup (3/4 perspective angle view)
-    cam_data = bpy.data.cameras.new(name="Boiler_Camera_Data")
+    # Camera setup (3/4 perspective angle view framing full ~6m length locomotive)
+    cam_data = bpy.data.cameras.new(name="Locomotive_Camera_Data")
     cam_data.lens = 50
-    cam_obj = bpy.data.objects.new("Boiler_Camera", cam_data)
-    cam_obj.location = (4.8, -4.2, 2.4)
-    cam_obj.rotation_euler = (math.radians(68), 0, math.radians(48))
+    cam_obj = bpy.data.objects.new("Locomotive_Camera", cam_data)
+    cam_obj.location = (6.8, -6.5, 3.2)
+    cam_obj.rotation_euler = (math.radians(72), 0, math.radians(44))
     collection.objects.link(cam_obj)
 
     bpy.context.scene.camera = cam_obj
 
 
 def generate_steam_train_boiler():
-    """Main execution function to construct the full train boiler scene."""
+    """Main execution function to construct the full train boiler & cab scene."""
     clean_existing_scene()
 
     # Collection Setup
@@ -622,12 +909,15 @@ def generate_steam_train_boiler():
     )
 
     # Build Geometry
+    chassis = create_chassis_frame(boiler_collection, mat_metal)
+    buffer_beams = create_buffer_beams(boiler_collection, mat_metal)
     boiler_main = create_boiler_main(boiler_collection, mat_boiler, mat_metal)
     smokebox_door = create_smokebox_front(boiler_collection, mat_boiler, mat_brass)
     chimney = create_chimney(boiler_main, boiler_collection, mat_boiler, mat_brass)
     small_dome = create_small_dome(boiler_main, boiler_collection, mat_boiler, mat_brass)
     big_dome = create_big_dome(boiler_main, boiler_collection, mat_boiler, mat_brass)
     side_plates = create_side_plates(boiler_collection, mat_metal)
+    drivers_cab = create_drivers_cab(boiler_collection, mat_boiler, mat_brass, mat_metal)
 
     # Build Lighting & Camera
     create_lighting_and_camera(boiler_collection)
