@@ -126,8 +126,10 @@ def create_material(name, base_color, metallic=0.0, roughness=0.5, transmission=
 
     # Glass material transparency settings
     if transmission > 0:
-        mat.blend_method = 'BLEND'
-        mat.shadow_method = 'NONE'
+        if hasattr(mat, "blend_method"):
+            mat.blend_method = 'BLEND'
+        if hasattr(mat, "shadow_method"):
+            mat.shadow_method = 'NONE'
 
     return mat
 
