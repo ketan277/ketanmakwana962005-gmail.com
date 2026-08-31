@@ -117,8 +117,8 @@ def create_wheel_mesh(name="CAT926M_Wheel_Mesh"):
         cap_ends=True,
         cap_tris=False,
         segments=segments,
-        radius1=outer_radius,
-        radius2=outer_radius,
+        diameter1=outer_radius * 2,
+        diameter2=outer_radius * 2,
         depth=width,
         matrix=Matrix.Rotation(math.radians(90), 4, 'Y')
     )
@@ -156,8 +156,8 @@ def create_wheel_mesh(name="CAT926M_Wheel_Mesh"):
         cap_ends=True,
         cap_tris=False,
         segments=segments,
-        radius1=rim_radius,
-        radius2=rim_radius,
+        diameter1=rim_radius * 2,
+        diameter2=rim_radius * 2,
         depth=width * 0.92,
         matrix=Matrix.Rotation(math.radians(90), 4, 'Y')
     )
@@ -170,8 +170,8 @@ def create_wheel_mesh(name="CAT926M_Wheel_Mesh"):
         cap_ends=True,
         cap_tris=False,
         segments=segments,
-        radius1=rim_radius * 1.08,
-        radius2=rim_radius * 1.08,
+        diameter1=rim_radius * 2 * 1.08,
+        diameter2=rim_radius * 2 * 1.08,
         depth=width * 0.95,
         matrix=Matrix.Rotation(math.radians(90), 4, 'Y')
     )
@@ -191,8 +191,8 @@ def create_wheel_mesh(name="CAT926M_Wheel_Mesh"):
             cap_ends=True,
             cap_tris=False,
             segments=24,
-            radius1=hub_radius,
-            radius2=hub_radius * 0.9,
+            diameter1=hub_radius * 2,
+            diameter2=hub_radius * 2 * 0.9,
             depth=0.15,
             matrix=Matrix.Translation((side * (half_w * 0.85), 0, 0)) @ Matrix.Rotation(math.radians(90), 4, 'Y')
         )
@@ -207,8 +207,8 @@ def create_wheel_mesh(name="CAT926M_Wheel_Mesh"):
                 hub_bmesh,
                 cap_ends=True,
                 segments=8,
-                radius1=0.025,
-                radius2=0.025,
+                diameter1=0.05,
+                diameter2=0.05,
                 depth=0.08,
                 matrix=Matrix.Translation((side * (half_w * 0.92), by, bz)) @ Matrix.Rotation(math.radians(90), 4, 'Y')
             )
@@ -292,8 +292,6 @@ def build_cat926m_wheels_rig():
             # Create Front Wheel attached to Steering Pivot
             w_obj = bpy.data.objects.new(name, shared_wheel_mesh)
             w_obj.location = (0, 0, 0)
-            if x < 0: # Right wheel mirrored rotation if needed
-                w_obj.rotation_euler = (0, 0, math.pi)
             w_obj.parent = pivot
             coll.objects.link(w_obj)
             wheels[name] = w_obj
@@ -301,8 +299,6 @@ def build_cat926m_wheels_rig():
             # Rear Wheel direct parent to Root
             w_obj = bpy.data.objects.new(name, shared_wheel_mesh)
             w_obj.location = (x, y, z)
-            if x < 0:
-                w_obj.rotation_euler = (0, 0, math.pi)
             w_obj.parent = root_obj
             coll.objects.link(w_obj)
             wheels[name] = w_obj
