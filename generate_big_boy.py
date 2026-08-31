@@ -12,6 +12,16 @@ def reset_scene():
     """Clear existing objects and materials."""
     bpy.ops.wm.read_factory_settings(use_empty=True)
 
+def get_active_object():
+    """Robust utility to get the active object in modern Blender versions."""
+    if hasattr(bpy.context, "active_object") and bpy.context.active_object is not None:
+        return bpy.context.active_object
+    if hasattr(bpy.context, "object") and bpy.context.object is not None:
+        return bpy.context.object
+    if hasattr(bpy.context, "view_layer") and hasattr(bpy.context.view_layer, "objects"):
+        return bpy.context.view_layer.objects.active
+    return None
+
 def create_materials():
     """Create PBR materials for the Big Boy 4014 locomotive."""
     mats = {}
@@ -112,7 +122,7 @@ def create_boiler_and_cab(mats):
     bpy.ops.mesh.primitive_cylinder_add(
         radius=1.5, depth=14.0, location=(0, 0, 3.5), rotation=(math.radians(90), 0, 0)
     )
-    boiler = bpy.context.active_object
+    boiler = get_active_object()
     boiler.name = "BigBoy_Boiler"
     assign_material(boiler, mats['boiler'])
 
@@ -120,7 +130,7 @@ def create_boiler_and_cab(mats):
     bpy.ops.mesh.primitive_cylinder_add(
         radius=1.52, depth=0.4, location=(0, -7.1, 3.5), rotation=(math.radians(90), 0, 0)
     )
-    smokebox = bpy.context.active_object
+    smokebox = get_active_object()
     smokebox.name = "BigBoy_SmokeboxDoor"
     assign_material(smokebox, mats['steel'])
 
@@ -128,7 +138,7 @@ def create_boiler_and_cab(mats):
     bpy.ops.mesh.primitive_cylinder_add(
         radius=0.4, depth=1.0, location=(0, -6.0, 5.2)
     )
-    chimney = bpy.context.active_object
+    chimney = get_active_object()
     chimney.name = "BigBoy_Chimney"
     assign_material(chimney, mats['steel'])
 
@@ -137,7 +147,7 @@ def create_boiler_and_cab(mats):
         bpy.ops.mesh.primitive_cylinder_add(
             radius=0.6, depth=0.9, location=(0, y_pos, 5.2)
         )
-        dome = bpy.context.active_object
+        dome = get_active_object()
         dome.name = f"BigBoy_SteamDome_{i+1}"
         assign_material(dome, mats['boiler'])
 
@@ -145,7 +155,7 @@ def create_boiler_and_cab(mats):
     bpy.ops.mesh.primitive_cube_add(
         size=1.0, location=(0, 7.5, 4.0)
     )
-    cab = bpy.context.active_object
+    cab = get_active_object()
     cab.name = "BigBoy_Cab"
     cab.scale = (3.4, 3.0, 2.5)
     assign_material(cab, mats['steel'])
@@ -154,7 +164,7 @@ def create_boiler_and_cab(mats):
     bpy.ops.mesh.primitive_cylinder_add(
         radius=1.75, depth=3.0, location=(0, 7.5, 5.2), rotation=(math.radians(90), 0, 0)
     )
-    cab_roof = bpy.context.active_object
+    cab_roof = get_active_object()
     cab_roof.name = "BigBoy_CabRoof"
     assign_material(cab_roof, mats['steel'])
 
@@ -163,7 +173,7 @@ def create_boiler_and_cab(mats):
         bpy.ops.mesh.primitive_cylinder_add(
             radius=0.35, depth=0.1, location=(x_side, 7.0, 4.2), rotation=(0, math.radians(90), 0)
         )
-        window = bpy.context.active_object
+        window = get_active_object()
         window.name = f"BigBoy_CabWindow_{'L' if x_side < 0 else 'R'}"
         assign_material(window, mats['brass'])
 
@@ -173,7 +183,7 @@ def create_wheel(name, radius, width, position, mats, is_driver=False):
     bpy.ops.mesh.primitive_cylinder_add(
         radius=radius, depth=width, location=position, rotation=(0, math.radians(90), 0)
     )
-    wheel = bpy.context.active_object
+    wheel = get_active_object()
     wheel.name = name
     assign_material(wheel, mats['steel'])
 
@@ -182,7 +192,7 @@ def create_wheel(name, radius, width, position, mats, is_driver=False):
         bpy.ops.mesh.primitive_cylinder_add(
             radius=radius * 0.3, depth=width * 1.1, location=position, rotation=(0, math.radians(90), 0)
         )
-        hub = bpy.context.active_object
+        hub = get_active_object()
         hub.name = f"{name}_Hub"
         assign_material(hub, mats['brass'])
 
@@ -191,7 +201,7 @@ def create_wheel(name, radius, width, position, mats, is_driver=False):
         bpy.ops.mesh.primitive_cylinder_add(
             radius=0.1, depth=width * 1.3, location=pin_pos, rotation=(0, math.radians(90), 0)
         )
-        pin = bpy.context.active_object
+        pin = get_active_object()
         pin.name = f"{name}_Pin"
         assign_material(pin, mats['rods'])
 
@@ -214,7 +224,7 @@ def create_4884_running_gear(mats):
         bpy.ops.mesh.primitive_cylinder_add(
             radius=0.1, depth=2.8, location=(0, y_pos, 0.45), rotation=(0, math.radians(90), 0)
         )
-        assign_material(bpy.context.active_object, mats['steel'])
+        assign_material(get_active_object(), mats['steel'])
 
     # --- 2. Front Driver Set (8 Wheels / 4 Axles) ---
     front_driver_y = [-5.8, -4.4, -3.0, -1.6]
@@ -226,14 +236,14 @@ def create_4884_running_gear(mats):
         bpy.ops.mesh.primitive_cylinder_add(
             radius=0.18, depth=2.9, location=(0, y_pos, 0.86), rotation=(0, math.radians(90), 0)
         )
-        assign_material(bpy.context.active_object, mats['steel'])
+        assign_material(get_active_object(), mats['steel'])
 
     # Front Side Rods (Left & Right)
     for x_side in [-1.6, 1.6]:
         bpy.ops.mesh.primitive_cube_add(
             size=1.0, location=(x_side, -3.7, 1.29)
         )
-        rod = bpy.context.active_object
+        rod = get_active_object()
         rod.name = f"BigBoy_FrontSideRod_{'L' if x_side < 0 else 'R'}"
         rod.scale = (0.08, 4.4, 0.12)
         assign_material(rod, mats['rods'])
@@ -248,14 +258,14 @@ def create_4884_running_gear(mats):
         bpy.ops.mesh.primitive_cylinder_add(
             radius=0.18, depth=2.9, location=(0, y_pos, 0.86), rotation=(0, math.radians(90), 0)
         )
-        assign_material(bpy.context.active_object, mats['steel'])
+        assign_material(get_active_object(), mats['steel'])
 
     # Rear Side Rods (Left & Right)
     for x_side in [-1.6, 1.6]:
         bpy.ops.mesh.primitive_cube_add(
             size=1.0, location=(x_side, 2.3, 1.29)
         )
-        rod = bpy.context.active_object
+        rod = get_active_object()
         rod.name = f"BigBoy_RearSideRod_{'L' if x_side < 0 else 'R'}"
         rod.scale = (0.08, 4.4, 0.12)
         assign_material(rod, mats['rods'])
@@ -270,7 +280,7 @@ def create_4884_running_gear(mats):
         bpy.ops.mesh.primitive_cylinder_add(
             radius=0.12, depth=2.8, location=(0, y_pos, 0.5), rotation=(0, math.radians(90), 0)
         )
-        assign_material(bpy.context.active_object, mats['steel'])
+        assign_material(get_active_object(), mats['steel'])
 
     # --- 5. Cylinders (4 Steam Cylinders: 2 Front, 2 Rear) ---
     cylinder_locs = [
@@ -281,7 +291,7 @@ def create_4884_running_gear(mats):
         bpy.ops.mesh.primitive_cylinder_add(
             radius=0.55, depth=2.2, location=loc, rotation=(math.radians(90), 0, 0)
         )
-        cyl = bpy.context.active_object
+        cyl = get_active_object()
         cyl.name = f"BigBoy_Cylinder_{i+1}"
         assign_material(cyl, mats['steel'])
 
@@ -293,7 +303,7 @@ def create_4884_running_gear(mats):
     for pair in main_rod_pairs:
         for pos in pair:
             bpy.ops.mesh.primitive_cube_add(size=1.0, location=pos)
-            m_rod = bpy.context.active_object
+            m_rod = get_active_object()
             m_rod.name = "BigBoy_MainDriveRod"
             m_rod.scale = (0.1, 2.8, 0.15)
             assign_material(m_rod, mats['rods'])
@@ -302,14 +312,14 @@ def create_tender(mats):
     """Builds the large fuel and water tender wagon attached behind the cab."""
     # Tender Body Tank
     bpy.ops.mesh.primitive_cube_add(size=1.0, location=(0, 14.5, 3.2))
-    tender = bpy.context.active_object
+    tender = get_active_object()
     tender.name = "BigBoy_TenderBody"
     tender.scale = (3.3, 9.5, 2.6)
     assign_material(tender, mats['steel'])
 
     # Coal Mound on top of Tender
     bpy.ops.mesh.primitive_cube_add(size=1.0, location=(0, 12.0, 4.8))
-    coal = bpy.context.active_object
+    coal = get_active_object()
     coal.name = "BigBoy_TenderCoal"
     coal.scale = (3.1, 5.0, 0.8)
     assign_material(coal, mats['coal'])
@@ -324,7 +334,7 @@ def create_tender(mats):
         bpy.ops.mesh.primitive_cylinder_add(
             radius=0.1, depth=2.7, location=(0, y_pos, 0.45), rotation=(0, math.radians(90), 0)
         )
-        assign_material(bpy.context.active_object, mats['steel'])
+        assign_material(get_active_object(), mats['steel'])
 
 def create_details_and_headlight(mats):
     """Builds cowcatcher (pilot grate), front headlight, whistle, and handrails."""
@@ -332,7 +342,7 @@ def create_details_and_headlight(mats):
     bpy.ops.mesh.primitive_cone_add(
         radius1=1.8, radius2=0.5, depth=1.2, location=(0, -8.8, 0.8), rotation=(math.radians(-90), 0, 0)
     )
-    cowcatcher = bpy.context.active_object
+    cowcatcher = get_active_object()
     cowcatcher.name = "BigBoy_Cowcatcher"
     assign_material(cowcatcher, mats['steel'])
 
@@ -340,7 +350,7 @@ def create_details_and_headlight(mats):
     bpy.ops.mesh.primitive_cylinder_add(
         radius=0.35, depth=0.6, location=(0, -7.2, 3.7), rotation=(math.radians(90), 0, 0)
     )
-    headlight_body = bpy.context.active_object
+    headlight_body = get_active_object()
     headlight_body.name = "BigBoy_HeadlightHousing"
     assign_material(headlight_body, mats['brass'])
 
@@ -348,7 +358,7 @@ def create_details_and_headlight(mats):
     bpy.ops.mesh.primitive_cylinder_add(
         radius=0.32, depth=0.08, location=(0, -7.51, 3.7), rotation=(math.radians(90), 0, 0)
     )
-    lens = bpy.context.active_object
+    lens = get_active_object()
     lens.name = "BigBoy_HeadlightLens"
     assign_material(lens, mats['headlight'])
 
@@ -356,7 +366,7 @@ def create_details_and_headlight(mats):
     bpy.ops.mesh.primitive_cylinder_add(
         radius=0.08, depth=0.5, location=(-0.5, 6.2, 5.4)
     )
-    whistle = bpy.context.active_object
+    whistle = get_active_object()
     whistle.name = "BigBoy_Whistle"
     assign_material(whistle, mats['brass'])
 
@@ -365,7 +375,7 @@ def create_details_and_headlight(mats):
         bpy.ops.mesh.primitive_cylinder_add(
             radius=0.04, depth=13.0, location=(x_side, 0.0, 3.6), rotation=(math.radians(90), 0, 0)
         )
-        pipe = bpy.context.active_object
+        pipe = get_active_object()
         pipe.name = f"BigBoy_BoilerPipe_{'L' if x_side < 0 else 'R'}"
         assign_material(pipe, mats['brass'])
 
@@ -377,7 +387,7 @@ def create_railroad_track(mats):
         bpy.ops.mesh.primitive_cube_add(
             size=1.0, location=(x_side, 4.0, 0.0)
         )
-        rail = bpy.context.active_object
+        rail = get_active_object()
         rail.name = f"Track_Rail_{'L' if x_side < 0 else 'R'}"
         rail.scale = (0.12, track_length, 0.18)
         assign_material(rail, mats['rail'])
@@ -387,7 +397,7 @@ def create_railroad_track(mats):
         bpy.ops.mesh.primitive_cube_add(
             size=1.0, location=(0, y_pos, -0.15)
         )
-        tie = bpy.context.active_object
+        tie = get_active_object()
         tie.name = f"Track_Tie_{y_pos}"
         tie.scale = (3.6, 0.4, 0.15)
         assign_material(tie, mats['coal'])
@@ -398,7 +408,7 @@ def setup_studio_lighting_and_camera():
     bpy.ops.object.camera_add(
         location=(-14.0, -16.0, 6.5), rotation=(math.radians(72), 0, math.radians(-42))
     )
-    cam = bpy.context.active_object
+    cam = get_active_object()
     cam.name = "BigBoy_StudioCamera"
     bpy.context.scene.camera = cam
 
@@ -406,7 +416,7 @@ def setup_studio_lighting_and_camera():
     bpy.ops.object.light_add(
         type='SUN', location=(-10, -10, 15)
     )
-    key_light = bpy.context.active_object
+    key_light = get_active_object()
     key_light.name = "Key_Light"
     key_light.data.energy = 4.5
 
@@ -414,7 +424,7 @@ def setup_studio_lighting_and_camera():
     bpy.ops.object.light_add(
         type='AREA', location=(10, -5, 8)
     )
-    fill_light = bpy.context.active_object
+    fill_light = get_active_object()
     fill_light.name = "Fill_Light"
     fill_light.data.energy = 300.0
 
@@ -422,7 +432,7 @@ def setup_studio_lighting_and_camera():
     bpy.ops.object.light_add(
         type='SPOT', location=(0, 22, 12)
     )
-    rim_light = bpy.context.active_object
+    rim_light = get_active_object()
     rim_light.name = "Rim_Light"
     rim_light.data.energy = 800.0
 
