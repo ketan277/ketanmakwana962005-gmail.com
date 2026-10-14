@@ -1,0 +1,609 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Noise Airwave Max 4 | Sound That Moves You. Power That Lasts.</title>
+    <meta name="description" content="Meet the Noise Airwave Max 4 Wireless Over-Ear Headphones. 70-hour battery life, concert-grade 40mm drivers, 40ms ultra-low latency, and dual device pairing.">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+    <!-- Ambient Gradient Mesh Background Elements -->
+    <div class="ambient-glow glow-1"></div>
+    <div class="ambient-glow glow-2"></div>
+    <div class="ambient-glow glow-3"></div>
+
+    <!-- 1. Sticky Navbar -->
+    <header class="navbar-header" id="navbar">
+        <div class="container nav-container">
+            <a href="#" class="logo">
+                <span class="logo-text">NOISE</span>
+                <span class="logo-dot"></span>
+            </a>
+            <nav class="nav-links" id="navLinks">
+                <a href="#features" class="nav-link">Features</a>
+                <a href="#specs" class="nav-link">Sound & Specs</a>
+                <a href="#battery" class="nav-link">Battery</a>
+                <a href="#testimonials" class="nav-link">Testimonials</a>
+                <a href="#pricing" class="nav-link">Pricing</a>
+            </nav>
+            <div class="nav-actions">
+                <a href="#pricing" class="btn btn-primary btn-nav-cta btn-glow">Get Yours Now</a>
+                <button class="mobile-toggle" id="mobileToggle" aria-label="Toggle Navigation Menu">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Mobile Drawer Navigation -->
+    <div class="mobile-menu" id="mobileMenu">
+        <nav class="mobile-nav-links">
+            <a href="#features" class="mobile-nav-link">Features</a>
+            <a href="#specs" class="mobile-nav-link">Sound & Specs</a>
+            <a href="#battery" class="mobile-nav-link">Battery</a>
+            <a href="#testimonials" class="mobile-nav-link">Testimonials</a>
+            <a href="#pricing" class="mobile-nav-link">Pricing</a>
+            <a href="#pricing" class="btn btn-primary mobile-cta">Get Yours Now - ₹1,699</a>
+        </nav>
+    </div>
+
+    <main>
+        <!-- 2. Hero Section -->
+        <section class="hero-section">
+            <div class="container hero-container">
+                <div class="hero-content reveal-left">
+                    <div class="badge">
+                        <span class="badge-icon">✨</span>
+                        <span class="badge-text">Great Indian Festival Special — <strong>72% Off</strong></span>
+                    </div>
+                    <h1 class="hero-headline">
+                        Sound That Moves You.<br>
+                        <span class="gradient-text">Power That Lasts.</span>
+                    </h1>
+                    <p class="hero-subheadline">
+                        Meet the <a href="https://www.amazon.in/gp/aw/d/B0CY1PL36Q/?_encoding=UTF8&pd_rd_plhdr=t&aaxitk=efc782df1694f50ae98629acfae5ec32&hsa_cr_id=0&qid=1791977132&sr=1-1-e0fa1fdd-d857-4087-adda-5bd576b25987&i=aps&aref=Fe2ZfPrgTQ&ref_=sbx_s_sparkle_sbtcd_asin_0_img&pd_rd_w=zNHYk&content-id=amzn1.sym.c0c4f4ed-4ecc-4626-b0b0-d428311a6244%3Aamzn1.sym.c0c4f4ed-4ecc-4626-b0b0-d428311a6244&pf_rd_p=c0c4f4ed-4ecc-4626-b0b0-d428311a6244&pf_rd_r=RN6EDGSH136AGVN3BA2H&pd_rd_wg=1a4m2&pd_rd_r=088ad9c5-3ad6-4add-ae93-c36c06c10774&th=1" target="_blank" rel="noopener noreferrer" class="link-highlight">Noise Airwave Max 4</a>. Engineered with an astonishing <strong>70-hour battery</strong>, concert-grade <strong>40mm drivers</strong>, and <strong>ultra-low latency</strong>.
+                    </p>
+                    <div class="hero-ctas">
+                        <a href="#pricing" class="btn btn-primary btn-glow">
+                            Claim Limited Offer - ₹1,699
+                        </a>
+                        <button class="btn btn-ghost" id="openVideoModal">
+                            <svg class="play-icon" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M8 5v14l11-7z"/>
+                            </svg>
+                            Watch Product Film
+                        </button>
+                    </div>
+                    <div class="hero-trust-row">
+                        <div class="avatars">
+                            <span class="avatar">👨‍💻</span>
+                            <span class="avatar">🎧</span>
+                            <span class="avatar">🎮</span>
+                            <span class="avatar">✈️</span>
+                        </div>
+                        <span class="trust-text">Joined by <strong>4,000+</strong> happy listeners across India</span>
+                    </div>
+                </div>
+
+                <div class="hero-visual reveal-right">
+                    <div class="visual-aura aura-beige" id="heroAura"></div>
+                    <div class="floating-card-wrapper">
+                        <div class="floating-tag tag-battery">⚡ 70 Hours Playtime</div>
+                        <div class="floating-tag tag-latency">🎮 40ms Low Latency</div>
+                        <div class="headphone-stage">
+                            <div class="headphone-render calm-beige-render active" id="heroHeadphoneRender">
+                                <!-- Detailed SVG Headphone Visual -->
+                                <svg class="headphone-svg" viewBox="0 0 400 400" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <defs>
+                                        <linearGradient id="bandGradBeige" x1="0%" y1="0%" x2="100%" y2="100%">
+                                            <stop offset="0%" stop-color="#EADCC9" />
+                                            <stop offset="50%" stop-color="#D8C4AA" />
+                                            <stop offset="100%" stop-color="#BFAC90" />
+                                        </linearGradient>
+                                        <linearGradient id="earGradBeige" x1="0%" y1="0%" x2="0%" y2="100%">
+                                            <stop offset="0%" stop-color="#F5ECE1" />
+                                            <stop offset="100%" stop-color="#D9C7B2" />
+                                        </linearGradient>
+                                        <linearGradient id="goldAccent" x1="0%" y1="0%" x2="100%" y2="0%">
+                                            <stop offset="0%" stop-color="#D4AF37" />
+                                            <stop offset="100%" stop-color="#F3E5AB" />
+                                        </linearGradient>
+                                        <filter id="dropGlow" x="-20%" y="-20%" width="140%" height="140%">
+                                            <feDropShadow dx="0" dy="15" stdDeviation="20" flood-color="#D8C4AA" flood-opacity="0.3"/>
+                                        </filter>
+                                    </defs>
+                                    <!-- Headband -->
+                                    <path d="M 100 200 C 100 80, 300 80, 300 200" stroke="url(#bandGradBeige)" stroke-width="28" stroke-linecap="round" filter="url(#dropGlow)" />
+                                    <path d="M 115 190 C 115 100, 285 100, 285 190" stroke="#332D27" stroke-width="8" stroke-linecap="round" />
+                                    <!-- Metallic Arms -->
+                                    <rect x="85" y="180" width="16" height="50" rx="8" fill="url(#goldAccent)"/>
+                                    <rect x="299" y="180" width="16" height="50" rx="8" fill="url(#goldAccent)"/>
+                                    <!-- Left Ear Cup -->
+                                    <g class="earcup-group">
+                                        <ellipse cx="93" cy="245" rx="42" ry="58" fill="url(#earGradBeige)" stroke="#C7B49B" stroke-width="4"/>
+                                        <ellipse cx="93" cy="245" rx="30" ry="44" fill="#2A241F"/>
+                                        <ellipse cx="93" cy="245" rx="20" ry="32" fill="#1C1814"/>
+                                        <circle cx="93" cy="245" r="8" fill="url(#goldAccent)"/>
+                                    </g>
+                                    <!-- Right Ear Cup -->
+                                    <g class="earcup-group">
+                                        <ellipse cx="307" cy="245" rx="42" ry="58" fill="url(#earGradBeige)" stroke="#C7B49B" stroke-width="4"/>
+                                        <ellipse cx="307" cy="245" rx="30" ry="44" fill="#2A241F"/>
+                                        <ellipse cx="307" cy="245" rx="20" ry="32" fill="#1C1814"/>
+                                        <circle cx="307" cy="245" r="8" fill="url(#goldAccent)"/>
+                                    </g>
+                                    <!-- Floating audio pulse ring -->
+                                    <circle cx="200" cy="220" r="130" stroke="url(#goldAccent)" stroke-width="1.5" stroke-dasharray="6 6" opacity="0.4" class="pulse-ring"/>
+                                </svg>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 3. Social Proof Bar -->
+        <section class="social-proof-section">
+            <div class="container">
+                <div class="stats-grid reveal-up">
+                    <div class="stat-item">
+                        <div class="stat-value"><span class="counter" data-target="4034">0</span>+</div>
+                        <div class="stat-label">Global Ratings</div>
+                    </div>
+                    <div class="stat-divider"></div>
+                    <div class="stat-item">
+                        <div class="stat-value"><span class="counter" data-target="500">0</span>+</div>
+                        <div class="stat-label">Bought in Past Month</div>
+                    </div>
+                    <div class="stat-divider"></div>
+                    <div class="stat-item">
+                        <div class="stat-value"><span class="counter" data-target="70">0</span> Hrs</div>
+                        <div class="stat-label">Non-Stop Playtime</div>
+                    </div>
+                </div>
+
+                <div class="trust-badges-bar reveal-up">
+                    <div class="trust-badge">
+                        <svg class="badge-icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                        <span>Top Brand on Amazon (11+ Years)</span>
+                    </div>
+                    <div class="trust-badge">
+                        <svg class="badge-icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                        <span>100% Genuine Product</span>
+                    </div>
+                    <div class="trust-badge">
+                        <svg class="badge-icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="1" y="3" width="15" height="13"></rect><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"></polygon><circle cx="5.5" cy="18.5" r="2.5"></circle><circle cx="18.5" cy="18.5" r="2.5"></circle></svg>
+                        <span>Fast & Secure Delivery</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 4. Core Features (Bento Grid Layout) -->
+        <section class="features-section" id="features">
+            <div class="container">
+                <div class="section-header text-center reveal-up">
+                    <span class="section-tag">ENGINEERED EXCELLENCE</span>
+                    <h2 class="section-title">Designed for Modern Daily Demands</h2>
+                    <p class="section-subtitle">Experience audio freedom with state-of-the-art tech built into every curve.</p>
+                </div>
+
+                <div class="bento-grid">
+                    <!-- Card 1 (Large - Battery) -->
+                    <div class="bento-card bento-large glass-card reveal-up" id="battery">
+                        <div class="bento-card-content">
+                            <div class="card-badge">POWERHOUSE</div>
+                            <h3 class="bento-title">70-Hour Endless Playtime</h3>
+                            <p class="bento-desc">
+                                Leave the charger behind. Power through weeks of work sessions and weekend playlists on a single charge. Plus, <strong>Instacharge™</strong> gives you 300 minutes of playback from just a 10-minute charge.
+                            </p>
+                            <div class="battery-meter-visual">
+                                <div class="battery-head"></div>
+                                <div class="battery-body">
+                                    <div class="battery-fill"></div>
+                                </div>
+                                <span class="battery-text">70 HOURS READY</span>
+                            </div>
+                        </div>
+                        <div class="bento-glow-bg"></div>
+                    </div>
+
+                    <!-- Card 2 (Audio) -->
+                    <div class="bento-card glass-card reveal-up" id="specs">
+                        <div class="card-icon">🔊</div>
+                        <h3 class="bento-title">Immersive 40mm Drivers</h3>
+                        <p class="bento-desc">
+                            Designed to deliver crystal-clear acoustics, punchy bass, and balanced soundstages for every genre.
+                        </p>
+                        <div class="audio-wave-visual">
+                            <span></span><span></span><span></span><span></span><span></span>
+                        </div>
+                    </div>
+
+                    <!-- Card 3 (Gaming/Video) -->
+                    <div class="bento-card glass-card reveal-up">
+                        <div class="card-icon">⚡</div>
+                        <h3 class="bento-title">Ultra-Low Latency (Up to 40ms)</h3>
+                        <p class="bento-desc">
+                            Zero noticeable audio lag. Stay completely synced to the action whether you're gaming or streaming movies.
+                        </p>
+                        <div class="latency-badge">40ms GAME MODE</div>
+                    </div>
+
+                    <!-- Card 4 (Connectivity) -->
+                    <div class="bento-card bento-wide glass-card reveal-up">
+                        <div class="card-icon">📱💻</div>
+                        <h3 class="bento-title">Dual Device Pairing (BT v5.4)</h3>
+                        <p class="bento-desc">
+                            Seamlessly switch audio streams between your laptop and smartphone without manual disconnects.
+                        </p>
+                        <div class="pairing-visual">
+                            <span class="device-node">Laptop</span>
+                            <span class="pulse-connection"></span>
+                            <span class="device-node">Noise Airwave</span>
+                            <span class="pulse-connection"></span>
+                            <span class="device-node">Phone</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 5. Product Showcase / Colorways -->
+        <section class="showcase-section">
+            <div class="container">
+                <div class="section-header text-center reveal-up">
+                    <span class="section-tag">AESTHETIC & COMFORT</span>
+                    <h2 class="section-title">Pick Your Signature Style</h2>
+                    <p class="section-subtitle">Crafted with ultra-soft memory foam and finished with a refined matte texture.</p>
+                </div>
+
+                <div class="showcase-container glass-card reveal-up">
+                    <div class="showcase-preview">
+                        <div class="showcase-render-box" id="showcaseRenderBox">
+                            <!-- SVG Headphone Dynamic Visual for Colorways -->
+                            <svg class="showcase-svg" id="dynamicHeadphoneSvg" viewBox="0 0 400 400" fill="none">
+                                <defs>
+                                    <linearGradient id="swatchBandGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                                        <stop offset="0%" id="gradStop1" stop-color="#EADCC9" />
+                                        <stop offset="100%" id="gradStop2" stop-color="#BFAC90" />
+                                    </linearGradient>
+                                    <linearGradient id="swatchCupGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+                                        <stop offset="0%" id="cupStop1" stop-color="#F5ECE1" />
+                                        <stop offset="100%" id="cupStop2" stop-color="#D9C7B2" />
+                                    </linearGradient>
+                                </defs>
+                                <path d="M 100 200 C 100 80, 300 80, 300 200" stroke="url(#swatchBandGrad)" stroke-width="30" stroke-linecap="round"/>
+                                <rect x="85" y="180" width="16" height="50" rx="8" fill="#D4AF37"/>
+                                <rect x="299" y="180" width="16" height="50" rx="8" fill="#D4AF37"/>
+                                <ellipse cx="93" cy="245" rx="42" ry="58" id="cupLeft" fill="url(#swatchCupGrad)" stroke="#B5A188" stroke-width="4"/>
+                                <ellipse cx="93" cy="245" rx="30" ry="44" fill="#1C1814"/>
+                                <ellipse cx="307" cy="245" rx="42" ry="58" id="cupRight" fill="url(#swatchCupGrad)" stroke="#B5A188" stroke-width="4"/>
+                                <ellipse cx="307" cy="245" rx="30" ry="44" fill="#1C1814"/>
+                            </svg>
+                        </div>
+                        <div class="showcase-badge" id="colorNameBadge">Calm Beige</div>
+                    </div>
+
+                    <div class="showcase-controls">
+                        <h3 class="controls-title">Choose Colorway:</h3>
+                        <div class="color-options">
+                            <button class="color-btn active" data-color="beige" data-name="Calm Beige">
+                                <span class="swatch swatch-beige"></span>
+                                <span class="swatch-label">Calm Beige</span>
+                            </button>
+                            <button class="color-btn" data-color="black" data-name="Carbon Black">
+                                <span class="swatch swatch-black"></span>
+                                <span class="swatch-label">Carbon Black</span>
+                            </button>
+                            <button class="color-btn" data-color="teal" data-name="Tropical Teal">
+                                <span class="swatch swatch-teal"></span>
+                                <span class="swatch-label">Tropical Teal</span>
+                            </button>
+                        </div>
+
+                        <div class="design-highlights">
+                            <h4>Design Highlights:</h4>
+                            <ul>
+                                <li>
+                                    <svg class="check-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                                    <strong>Soft-touch memory foam:</strong> All-day pressure-free wearing.
+                                </li>
+                                <li>
+                                    <svg class="check-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                                    <strong>Foldable twist-design:</strong> Folds flat for effortless travel portability.
+                                </li>
+                                <li>
+                                    <svg class="check-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                                    <strong>Refined matte finish:</strong> Premium tactile feel resistant to fingerprints.
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 6. Benefits Section (Why Choose Airwave Max 4?) -->
+        <section class="benefits-section">
+            <div class="container">
+                <div class="section-header text-center reveal-up">
+                    <span class="section-tag">TAILORED FOR YOU</span>
+                    <h2 class="section-title">Why Choose Noise Airwave Max 4?</h2>
+                    <p class="section-subtitle">Built specifically for your daily routine, whether at work, traveling, or relaxing.</p>
+                </div>
+
+                <div class="benefits-grid">
+                    <div class="benefit-card glass-card reveal-up">
+                        <div class="benefit-icon">💼</div>
+                        <h3 class="benefit-title">For the Multitasker</h3>
+                        <p class="benefit-desc">
+                            Dual-pairing lets you jump straight from a Zoom call on your laptop to an incoming phone call without missing a beat.
+                        </p>
+                    </div>
+
+                    <div class="benefit-card glass-card reveal-up">
+                        <div class="benefit-icon">✈️</div>
+                        <h3 class="benefit-title">For the Traveler</h3>
+                        <p class="benefit-desc">
+                            Lightweight twist-foldable build fits easily into any backpack or carry-on bag for journey-ready convenience.
+                        </p>
+                    </div>
+
+                    <div class="benefit-card glass-card reveal-up">
+                        <div class="benefit-icon">🎵</div>
+                        <h3 class="benefit-title">For the Audiophile on a Budget</h3>
+                        <p class="benefit-desc">
+                            Premium sound engineering with deep punchy bass and clean highs previously reserved for high-end brackets.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 7. Customer Testimonials -->
+        <section class="testimonials-section" id="testimonials">
+            <div class="container">
+                <div class="section-header text-center reveal-up">
+                    <span class="section-tag">VERIFIED REVIEWS</span>
+                    <h2 class="section-title">Loved by Thousands Across India</h2>
+                    <p class="section-subtitle">Here is what real users have to say about their experience.</p>
+                </div>
+
+                <div class="testimonials-grid">
+                    <div class="testimonial-card glass-card reveal-up">
+                        <div class="stars">⭐⭐⭐⭐⭐</div>
+                        <p class="quote">
+                            "Amazing quality! It twists which makes travel super easy. Gorgeous design and very soft on the ears. Battery backup is genuinely impressive."
+                        </p>
+                        <div class="reviewer">
+                            <div class="reviewer-avatar">VB</div>
+                            <div class="reviewer-info">
+                                <span class="reviewer-name">Verified Buyer</span>
+                                <span class="reviewer-tag">Amazon Verified Purchase</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="testimonial-card glass-card reveal-up">
+                        <div class="stars">⭐⭐⭐⭐⭐</div>
+                        <p class="quote">
+                            "The sound quality is crisp with deep bass, and the Bluetooth stability is fantastic for daily work routines. Charging once every two weeks!"
+                        </p>
+                        <div class="reviewer">
+                            <div class="reviewer-avatar">BS</div>
+                            <div class="reviewer-info">
+                                <span class="reviewer-name">Bhupesh S.</span>
+                                <span class="reviewer-tag">Amazon Verified Purchase</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="testimonial-card glass-card reveal-up">
+                        <div class="stars">⭐⭐⭐⭐⭐</div>
+                        <p class="quote">
+                            "Dual device pairing works flawlessly between my Mac and iPhone. For ₹1,699, there is nothing in the market that touches this value."
+                        </p>
+                        <div class="reviewer">
+                            <div class="reviewer-avatar">RK</div>
+                            <div class="reviewer-info">
+                                <span class="reviewer-name">Rahul K.</span>
+                                <span class="reviewer-tag">Tech Enthusiast</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 8. Pricing & Offer Section -->
+        <section class="pricing-section" id="pricing">
+            <div class="container">
+                <div class="pricing-card-wrapper reveal-up">
+                    <div class="pricing-card glass-card">
+                        <div class="pricing-badge">LIMITED TIME FESTIVAL OFFER</div>
+                        <h2 class="pricing-product-title">Noise Airwave Max 4 Wireless Over-Ear Headphones</h2>
+
+                        <div class="pricing-price-box">
+                            <div class="original-price">M.R.P.: <del>₹5,999</del></div>
+                            <div class="deal-price">
+                                <span class="currency">₹</span>1,699
+                                <span class="save-tag">SAVE 72%</span>
+                            </div>
+                            <div class="tax-note">Inclusive of all taxes</div>
+                        </div>
+
+                        <ul class="perks-list">
+                            <li>
+                                <svg class="perk-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                                <strong>Free Delivery</strong> directly to your doorstep
+                            </li>
+                            <li>
+                                <svg class="perk-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                                <strong>1-Year Warranty Care</strong> backed by Noise India
+                            </li>
+                            <li>
+                                <svg class="perk-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                                <strong>10-Day Replacement Policy</strong> for complete peace of mind
+                            </li>
+                        </ul>
+
+                        <div class="pricing-cta-box">
+                            <a href="https://www.amazon.in/gp/aw/d/B0CY1PL36Q/?_encoding=UTF8&pd_rd_plhdr=t&aaxitk=efc782df1694f50ae98629acfae5ec32&hsa_cr_id=0&qid=1791977132&sr=1-1-e0fa1fdd-d857-4087-adda-5bd576b25987&i=aps&aref=Fe2ZfPrgTQ&ref_=sbx_s_sparkle_sbtcd_asin_0_img&pd_rd_w=zNHYk&content-id=amzn1.sym.c0c4f4ed-4ecc-4626-b0b0-d428311a6244%3Aamzn1.sym.c0c4f4ed-4ecc-4626-b0b0-d428311a6244&pf_rd_p=c0c4f4ed-4ecc-4626-b0b0-d428311a6244&pf_rd_r=RN6EDGSH136AGVN3BA2H&pd_rd_wg=1a4m2&pd_rd_r=088ad9c5-3ad6-4add-ae93-c36c06c10774&th=1" target="_blank" rel="noopener noreferrer" class="btn btn-primary btn-amazon btn-glow">
+                                <svg class="amazon-icon" viewBox="0 0 24 24" fill="currentColor">
+                                    <path d="M15.93 17.09c-2.83 2.09-6.88 3.2-10.45 1.58-1.07-.48-2.02-1.18-2.83-2.01-.22-.22-.04-.56.24-.46 3.73 1.35 8.01 1.09 11.45-.88.35-.2.72.23.59.77z"/>
+                                    <path d="M17.3 15.63c-.36-.46-2.38-.22-3.32-.11-.28.03-.33-.24-.08-.41 1.63-1.11 4.21-.79 4.51-.41.31.39-.08 3-.16 4.67-.03.28-.31.33-.45.1-.48-.82-.14-3.38-.5-3.84z"/>
+                                </svg>
+                                Buy Now on Amazon
+                            </a>
+                            <p class="stock-urgency">🔥 Stock running low! 500+ claimed this month</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 9. Frequently Asked Questions (FAQ) -->
+        <section class="faq-section">
+            <div class="container">
+                <div class="section-header text-center reveal-up">
+                    <span class="section-tag">GOT QUESTIONS?</span>
+                    <h2 class="section-title">Frequently Asked Questions</h2>
+                    <p class="section-subtitle">Everything you need to know about the Noise Airwave Max 4.</p>
+                </div>
+
+                <div class="faq-accordion reveal-up">
+                    <div class="faq-item glass-card">
+                        <button class="faq-question">
+                            <span>How long does it take to fully charge?</span>
+                            <span class="faq-icon">+</span>
+                        </button>
+                        <div class="faq-answer">
+                            <p>Thanks to Type-C fast charging, a quick 10-minute charge gives you up to 300 minutes of playtime. A full charge takes approximately 1.5 to 2 hours.</p>
+                        </div>
+                    </div>
+
+                    <div class="faq-item glass-card">
+                        <button class="faq-question">
+                            <span>Can I connect it to two devices simultaneously?</span>
+                            <span class="faq-icon">+</span>
+                        </button>
+                        <div class="faq-answer">
+                            <p>Yes! With Bluetooth v5.4 dual-device pairing, you can seamlessly connect your phone and laptop at the same time and switch seamlessly between calls and audio.</p>
+                        </div>
+                    </div>
+
+                    <div class="faq-item glass-card">
+                        <button class="faq-question">
+                            <span>Are these headphones foldable for travel?</span>
+                            <span class="faq-icon">+</span>
+                        </button>
+                        <div class="faq-answer">
+                            <p>Absolutely. They feature a flexible twist-and-fold design that lies flat, making them effortless to pack into your bag.</p>
+                        </div>
+                    </div>
+
+                    <div class="faq-item glass-card">
+                        <button class="faq-question">
+                            <span>What is included in the box?</span>
+                            <span class="faq-icon">+</span>
+                        </button>
+                        <div class="faq-answer">
+                            <p>In the box you will find: 1 Headphone unit, 1 USB Type-C charging cable, 1 AUX cable (for wired listening), 1 User Manual, and 1 Warranty Card.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 10. Final Conversion CTA Section -->
+        <section class="final-cta-section">
+            <div class="container text-center reveal-up">
+                <div class="final-cta-card glass-card">
+                    <h2 class="final-cta-title">Ready to Elevate Your Listening Experience?</h2>
+                    <p class="final-cta-subtext">Join thousands of users enjoying crystal-clear sound and unmatched 70-hour battery backup.</p>
+                    <a href="https://www.amazon.in/gp/aw/d/B0CY1PL36Q/?_encoding=UTF8&pd_rd_plhdr=t&aaxitk=efc782df1694f50ae98629acfae5ec32&hsa_cr_id=0&qid=1791977132&sr=1-1-e0fa1fdd-d857-4087-adda-5bd576b25987&i=aps&aref=Fe2ZfPrgTQ&ref_=sbx_s_sparkle_sbtcd_asin_0_img&pd_rd_w=zNHYk&content-id=amzn1.sym.c0c4f4ed-4ecc-4626-b0b0-d428311a6244%3Aamzn1.sym.c0c4f4ed-4ecc-4626-b0b0-d428311a6244&pf_rd_p=c0c4f4ed-4ecc-4626-b0b0-d428311a6244&pf_rd_r=RN6EDGSH136AGVN3BA2H&pd_rd_wg=1a4m2&pd_rd_r=088ad9c5-3ad6-4add-ae93-c36c06c10774&th=1" target="_blank" rel="noopener noreferrer" class="btn btn-primary btn-large btn-glow">
+                        Secure Your Pair at 72% Off Now
+                    </a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Modal Video Placeholder -->
+    <div class="modal-backdrop" id="videoModal">
+        <div class="modal-content glass-card">
+            <button class="modal-close" id="closeVideoModal">&times;</button>
+            <div class="video-container">
+                <div class="video-placeholder">
+                    <div class="play-ring">
+                        <svg class="play-icon-large" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+                    </div>
+                    <h3>Noise Airwave Max 4 - Official Product Film</h3>
+                    <p>Experience the 70-Hour Battery & 40mm Sound Stage in HD</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 11. Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col col-brand">
+                    <a href="#" class="logo">
+                        <span class="logo-text">NOISE</span>
+                        <span class="logo-dot"></span>
+                    </a>
+                    <p class="brand-story">
+                        At Noise, we aim to redefine personal tech for youth and creators. Delivering unmatched audio engineering, modern designs, and unbeatable battery tech.
+                    </p>
+                </div>
+
+                <div class="footer-col">
+                    <h4 class="footer-title">Support</h4>
+                    <ul class="footer-links">
+                        <li><a href="#">Help Center</a></li>
+                        <li><a href="#">Warranty Registration</a></li>
+                        <li><a href="#">Track Order</a></li>
+                        <li><a href="#">Contact Us</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-col">
+                    <h4 class="footer-title">Quick Links</h4>
+                    <ul class="footer-links">
+                        <li><a href="#features">Features</a></li>
+                        <li><a href="#specs">Sound Drivers</a></li>
+                        <li><a href="#battery">Battery Tech</a></li>
+                        <li><a href="#pricing">Amazon Special Offer</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-col">
+                    <h4 class="footer-title">Legal & Privacy</h4>
+                    <ul class="footer-links">
+                        <li><a href="#">Privacy Policy</a></li>
+                        <li><a href="#">Terms of Service</a></li>
+                        <li><a href="#">Return Policy</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="footer-bottom text-center">
+                <p>&copy; 2026 Noise Lifestyle Technology. Built for the everyday explorer.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
